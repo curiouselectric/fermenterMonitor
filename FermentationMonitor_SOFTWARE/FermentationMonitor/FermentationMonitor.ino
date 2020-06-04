@@ -133,9 +133,9 @@ float temp2Buffer[sizeOfBuffer];  // Sets up a buffer of floats for displaying d
 
 int startx = 2;          // For drawing the graphs (bottom left corner)
 int starty = 46;          // For drawing the graphs (bottom left corner)
-float graphHeight = 30.0;     // Height of graph (its 120 pixels wide)
-float graphHeightMaxValue = 30.0;  // Maximum of the int values to be displayed- in 100's of millis (divide by 10 to get right value)
-float graphHeightMinValue = 10.0;    // Maximum of the int values to be displayed- in 100's of millis (divide by 10 to get right value)
+float graphHeight = 30.0;     // Height of graph (its 120 pixels wide, 64 pixels high)
+float graphHeightMaxValue = 30.0;  // Maximum of the int values to be displayed
+float graphHeightMinValue = 10.0;    // Minimum of the int values to be displayed
 float graphCalculatedY;   // for doing calculations
 
 ESPRotary r = ESPRotary(ROT_A_PIN2, ROT_B_PIN2, 4);
@@ -449,7 +449,7 @@ void updateScreen(int _mode, bool _wificonnect, bool _mqttconnect)
       u8g2.setCursor(38, 50);
       u8g2.print(checkTempRange(temp1, -100.0, 120.0));
       u8g2.setFont(CBOLED_MESSAGE_FONT_8PT);  // Font back to normal!
-      checkLEDs(temp1,tempHigh,tempLow);
+      checkLEDs(temp1, tempHigh, tempLow);
       break;
 
     case 3:
@@ -464,19 +464,19 @@ void updateScreen(int _mode, bool _wificonnect, bool _mqttconnect)
       {
         if (temp1Buffer[n] <= graphHeightMaxValue && temp1Buffer[n] >= graphHeightMinValue)
         {
-          graphCalculatedY = starty - ((temp1Buffer[n] / (graphHeightMaxValue - graphHeightMinValue)) * graphHeight);
+          graphCalculatedY = (starty - (((temp1Buffer[n] - graphHeightMinValue) / (graphHeightMaxValue - graphHeightMinValue)) * graphHeight ));
         }
         else if (temp1Buffer[n] > graphHeightMaxValue)
         {
-          graphCalculatedY = starty - (graphHeight);
+          graphCalculatedY = (starty - (graphHeight));
         }
         else if (temp1Buffer[n] < graphHeightMinValue)
         {
           graphCalculatedY = starty;
         }
-        u8g2.drawLine(startx + n, starty, startx + n, graphCalculatedY);
+        u8g2.drawLine(startx + n, starty, startx + n, (int)graphCalculatedY);
       }
-      checkLEDs(temp1,tempHigh,tempLow);
+      checkLEDs(temp1, tempHigh, tempLow);
       break;
     case 4:
       u8g2.setCursor(0, 10);
@@ -489,15 +489,15 @@ void updateScreen(int _mode, bool _wificonnect, bool _mqttconnect)
       u8g2.print(checkTempRange(temp2Max, -100.0, 120.0));
       // Draw the main temp in BIG in the middle
       u8g2.setCursor(0, 36);
-      u8g2.print(F("T ferm:"));
+      u8g2.print(F("T air:"));
       // Want to adjust the font here:
       u8g2.setFont(CBOLED_MESSAGE_FONT_24PT);  // choose a suitable font
       u8g2.setCursor(38, 50);
       u8g2.print(checkTempRange(temp2, -100.0, 120.0));
       u8g2.setFont(CBOLED_MESSAGE_FONT_8PT);  // Font back to normal!
-      checkLEDs(temp2,tempHigh,tempLow);
+      checkLEDs(temp2, tempHigh, tempLow);
       break;
-      
+
     case 5:
       // Show temp 1 as a bar chart over time
       u8g2.setCursor(0, 10);
@@ -510,19 +510,19 @@ void updateScreen(int _mode, bool _wificonnect, bool _mqttconnect)
       {
         if (temp2Buffer[n] <= graphHeightMaxValue && temp2Buffer[n] >= graphHeightMinValue)
         {
-          graphCalculatedY = starty - ((temp2Buffer[n] / (graphHeightMaxValue - graphHeightMinValue)) * graphHeight);
+          graphCalculatedY = (starty - (((temp2Buffer[n] - graphHeightMinValue) / (graphHeightMaxValue - graphHeightMinValue)) * graphHeight ));
         }
-        else if (temp1Buffer[n] > graphHeightMaxValue)
+        else if (temp2Buffer[n] > graphHeightMaxValue)
         {
           graphCalculatedY = starty - (graphHeight);
         }
-        else if (temp1Buffer[n] < graphHeightMinValue)
+        else if (temp2Buffer[n] < graphHeightMinValue)
         {
           graphCalculatedY = starty;
         }
-        u8g2.drawLine(startx + n, starty, startx + n, graphCalculatedY);
+        u8g2.drawLine(startx + n, starty, startx + n, (int)graphCalculatedY);
       }
-      checkLEDs(temp2,tempHigh,tempLow);
+      checkLEDs(temp2, tempHigh, tempLow);
       break;
 
     case 99:

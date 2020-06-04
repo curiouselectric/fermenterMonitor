@@ -10,10 +10,9 @@
 //https://io.adafruit.com/api/docs/mqtt.html#mqtt-connection-details
 #define AIO_SERVER                         "io.adafruit.com" // direct
 #define AIO_SERVERPORT                     8883    // Use 8883 if at all possible! For secure conenction
-//#define AIO_USERNAME                       "YOUR ADAFRUIT IO USERNAME" // This is your Adafruit IO username
-//#define AIO_KEY                            "YOUR ADAFRUIT IO API KEY" // This is your Adafruit IO Key
-#define AIO_USERNAME                       "chunky" // This is your Adafruit IO username
-#define AIO_KEY                            "b010a306b7304c3396d22be3a7600570" // This is your Adafruit IO Key
+#define AIO_USERNAME                       "YOUR ADAFRUIT IO USERNAME" // This is your Adafruit IO username
+#define AIO_KEY                            "YOUR ADAFRUIT IO API KEY" // This is your Adafruit IO Key
+
 
 //// Thingspeak Info -Not yet implemented!!
 //#define MQTT_SERVER                      "mqtt.thingspeak.com" // Via my thingspeak!
@@ -46,5 +45,5 @@ const uint8_t   RGBLED_BRIGHTNESS          = 16;
 #define         RGBLED_TYPE                (NEO_GRB + NEO_KHZ800)
 
 #define         DATA_AVERAGE               30  // The time between uploads in seconds
-#define         GRAPH_AVERAGE              720 // The time between updates of the graph display in seconds
+#define         GRAPH_AVERAGE              5 // The time between updates of the graph display in seconds
 #define         DISPLAY_UPDATE             5000  // Time in mS between reading data and displaying new values
